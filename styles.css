@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+header {
+    background-color: #2e7d32;
+    color: white;
+    text-align: center;
+    padding: 1.5rem 1rem;
+}
+
+header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-top: 5px;
+}
+
+.container {
+    max-width: 650px;
+    margin: 20px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #2e7d32;
+    font-size: 1.2rem;
+}
+
+/* Rejilla de Botones de Servicio */
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 10px;
+}
+
+.service-btn {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.service-btn:hover, .service-btn.active {
+    background: #2e7d32;
+    color: white;
+    border-color: #2e7d32;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.time-schedule {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.submit-btn {
+    margin-top: 20px;
+    padding: 14px;
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #1b5e20;
+}
+
+.order-item {
+    border-left: 5px solid #2e7d32;
+    background: #f9fbf9;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 6px;
+}
+
+.order-item p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.empty-msg {
+    color: #777;
+    font-style: italic;
+}
