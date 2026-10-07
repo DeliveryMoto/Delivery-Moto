@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - AL TOQUE Saladillo</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            background: #111;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 1.4rem;
+            color: #FF6600;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="color: #FF6600;">🔒 PANEL DE CONTROL PRIVADO</h1>
+        <p>AL TOQUE - Mandados y Trámites Saladillo</p>
+    </header>
+
+    <main class="container">
+        
+        <!-- PANTALLA DE ACCESO/CONTRASEÑA -->
+        <section id="loginSection" class="card login-box">
+            <h2>Ingreso de Administración</h2>
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Ingresa tu clave de acceso para ver los pedidos:</p>
+            <input type="password" id="adminPin" placeholder="Clave de acceso" style="text-align:center;">
+            <button onclick="checkAccess()" class="submit-btn" style="width:100%;">Ingresar al Panel</button>
+        </section>
+
+        <!-- CONTENIDO PRIVADO (OCULTO POR DEFECTO) -->
+        <section id="adminContent" style="display: none;">
+            
+            <!-- CONTADORES / ESTADÍSTICAS DE PEDIDOS -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div id="totalOrders" class="stat-number">0</div>
+                    <div style="font-size:0.8rem;">Total Pedidos</div>
+                </div>
+                <div class="stat-item">
+                    <div id="pendingOrders" class="stat-number">0</div>
+                    <div style="font-size:0.8rem;">Pendientes</div>
+                </div>
+                <div class="stat-item">
+                    <div id="deliveredOrders" class="stat-number">0</div>
+                    <div style="font-size:0.8rem;">Entregados</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>📋 Historial Completo de Pedidos Recibidos</h2>
+                    <button onclick="clearHistory()" style="background:#dc3545; color:white; border:none; padding:6px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Limpiar Historial</button>
+                </div>
+                <div id="fullOrderList" style="margin-top:15px;">
+                    <p class="empty-msg">No hay registros almacenados.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const PIN_CORRECTO = "1609"; // 🔑 Clave asignada
+
+        function checkAccess() {
+            const inputPin = document.getElementById('adminPin').value;
+            if (inputPin === PIN_CORRECTO) {
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('adminContent').style.display = 'block';
+                loadAdminData();
+            } else {
+                alert("Clave incorrecta. Acceso denegado.");
+            }
+        }
+
+        function loadAdminData() {
+            const orders = JSON.parse(localStorage.getItem('alToqueOrders')) || [];
+            const container = document.getElementById('fullOrderList');
+
+            // Actualizar Estadísticas
+            document.getElementById('totalOrders').textContent = orders.length;
+            document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'Pendiente').length;
+            document.getElementById('deliveredOrders').textContent = orders.filter(o => o.status === 'Entregado').length;
+
+            if (orders.length === 0) {
+                container.innerHTML = '<p class="empty-msg">No hay registros almacenados.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            orders.forEach(order => {
+                const item = document.createElement('div');
+                item.classList.add('order-item');
+                item.style.borderLeftColor = order.status === 'Entregado' ? '#28a745' : '#FF6600';
+                item.innerHTML = `
+                    <p><strong>#ID:</strong> ${order.id} | <strong>Servicio:</strong> ${order.service}</p>
+                    <p><strong>Tel. Cliente:</strong> <a href="https://wa.me/${order.phone}" target="_blank">${order.phone}</a></p>
+                    <p><strong>Detalle:</strong> ${order.details}</p>
+                    <p><strong>Dirección:</strong> ${order.address}</p>
+                    <p><strong>Horario Solicitado:</strong> ${order.date} - ${order.time}</p>
+                    <p>
+                        <strong>Estado:</strong> 
+                        <select onchange="changeStatus(${order.id}, this.value)" style="padding:4px; font-size:0.85rem;">
+                            <option value="Pendiente" ${order.status === 'Pendiente' ? 'selected' : ''}>Pendiente 🟡</option>
+                            <option value="En camino" ${order.status === 'En camino' ? 'selected' : ''}>En camino 🛵</option>
+                            <option value="Entregado" ${order.status === 'Entregado' ? 'selected' : ''}>Entregado ✅</option>
+                        </select>
+                    </p>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function changeStatus(id, newStatus) {
+            let orders = JSON.parse(localStorage.getItem('alToqueOrders')) || [];
+            orders = orders.map(o => {
+                if (o.id === id) o.status = newStatus;
+                return o;
+            });
+            localStorage.setItem('alToqueOrders', JSON.stringify(orders));
+            loadAdminData();
+        }
+
+        function clearHistory() {
+            if (confirm("¿Estás seguro de que deseas borrar todo el historial de pedidos?")) {
+                localStorage.removeItem('alToqueOrders');
+                loadAdminData();
+            }
+        }
+    </script>
+</body>
+</html>
