@@ -39,12 +39,14 @@
 
     <main class="container">
         
-        <!-- PANTALLA DE ACCESO/CONTRASEÑA -->
+        <!-- PANTALLA DE ACCESO / CONTRASEÑA -->
         <section id="loginSection" class="card login-box">
             <h2>Ingreso de Administración</h2>
             <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">Ingresa tu clave de acceso para ver los pedidos:</p>
-            <input type="password" id="adminPin" placeholder="Clave de acceso" style="text-align:center;">
-            <button onclick="checkAccess()" class="submit-btn" style="width:100%;">Ingresar al Panel</button>
+            <form onsubmit="event.preventDefault(); checkAccess();">
+                <input type="password" id="adminPin" placeholder="Clave de acceso" style="text-align:center; margin-bottom: 12px; width: 100%;">
+                <button type="button" onclick="checkAccess()" class="submit-btn email-btn" style="width:100%;">Ingresar al Panel</button>
+            </form>
         </section>
 
         <!-- CONTENIDO PRIVADO (OCULTO POR DEFECTO) -->
@@ -80,10 +82,10 @@
     </main>
 
     <script>
-        const PIN_CORRECTO = "1609"; // 🔑 Clave asignada
+        const PIN_CORRECTO = "1609"; // 🔑 Tu clave asignada
 
         function checkAccess() {
-            const inputPin = document.getElementById('adminPin').value;
+            const inputPin = document.getElementById('adminPin').value.trim();
             if (inputPin === PIN_CORRECTO) {
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('adminContent').style.display = 'block';
@@ -97,7 +99,6 @@
             const orders = JSON.parse(localStorage.getItem('alToqueOrders')) || [];
             const container = document.getElementById('fullOrderList');
 
-            // Actualizar Estadísticas
             document.getElementById('totalOrders').textContent = orders.length;
             document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'Pendiente').length;
             document.getElementById('deliveredOrders').textContent = orders.filter(o => o.status === 'Entregado').length;
