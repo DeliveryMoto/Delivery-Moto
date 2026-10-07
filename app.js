@@ -2,7 +2,7 @@ let currentService = 'super';
 let sendMethod = 'whatsapp';
 
 // Configurar teléfono de la empresa (reemplazar por el número real)
-const PHONE_NUMBER = "5492344123456"; 
+const PHONE_NUMBER = "5492344474452"; 
 
 function selectService(service, btn) {
     currentService = service;
