@@ -1,1 +1,137 @@
-Index.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AL TOQUE - Mandados y Trámites Saladillo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- CABECERA CON NUEVO LOGO PROFESIONAL DE SCOOTER/DELIVERY -->
+    <header>
+        <div class="logo-container">
+            <span class="logo-top">AL TOQUE</span>
+            <div class="logo-icon">
+                <!-- SVG SCOOTER DE DELIVERY CON ASIENTO AÚN MÁS ALTO Y ANCHO -->
+                <svg width="150" height="90" viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Rueda Trasera -->
+                    <circle cx="42" cy="70" r="16" fill="#111111"/>
+                    <circle cx="42" cy="70" r="8" fill="#FFFFFF"/>
+                    <circle cx="42" cy="70" r="4" fill="#111111"/>
+
+                    <!-- Rueda Delantera -->
+                    <circle cx="122" cy="70" r="16" fill="#111111"/>
+                    <circle cx="122" cy="70" r="8" fill="#FFFFFF"/>
+                    <circle cx="122" cy="70" r="4" fill="#111111"/>
+
+                    <!-- Chasis Principal de la Scooter -->
+                    <path d="M 42 70 L 50 50 L 88 50 C 92 48, 96 42, 98 32 L 106 18 L 115 22 L 112 36 L 125 50 L 122 70 L 106 70 L 98 58 L 68 58 L 58 70 Z" fill="#111111"/>
+
+                    <!-- ASIENTO (MÁS ALTO Y MÁS ANCHO) -->
+                    <path d="M 45 48 C 48 24, 88 24, 94 48 L 90 52 L 48 52 Z" fill="#111111"/>
+
+                    <!-- Manubrio / Espejos -->
+                    <path d="M 104 18 L 98 12 M 106 18 L 108 10" stroke="#111111" stroke-width="3" stroke-linecap="round"/>
+
+                    <!-- Caja / Mochila de Delivery Naranja -->
+                    <path d="M 30 26 C 30 22, 34 18, 40 18 L 62 18 C 68 18, 70 22, 68 28 L 64 48 C 63 52, 58 52, 54 52 L 34 50 C 30 50, 29 44, 30 40 Z" fill="#FF6600" stroke="#111111" stroke-width="2.5"/>
+
+                    <!-- Detalle en la Caja de Delivery -->
+                    <path d="M 35 28 L 62 28" stroke="#111111" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <span class="logo-bottom">SALADILLO</span>
+        </div>
+        <p class="slogan">Mandados & Trámites Express</p>
+    </header>
+
+    <main class="container">
+        
+        <!-- SELECCIÓN DE SERVICIO -->
+        <section class="card">
+            <h2>¿Qué necesitas hoy?</h2>
+            <div class="service-grid">
+                <button class="service-btn active" onclick="selectService('super', this)">🛒 Supermercado</button>
+                <button class="service-btn" onclick="selectService('delivery', this)">🛵 Moto Delivery</button>
+                <button class="service-btn" onclick="selectService('mandados', this)">📋 Mandados</button>
+                <button class="service-btn" onclick="selectService('servicios', this)">💳 Pago Servicios</button>
+                <button class="service-btn" onclick="selectService('turnos', this)">📅 Turnos</button>
+            </div>
+        </section>
+
+        <!-- FORMULARIO DE SOLICITUD -->
+        <section class="card">
+            <h2 id="formTitle">🛒 Pedido de Supermercado</h2>
+            <form id="orderForm">
+                
+                <div id="dynamicFields">
+                    <label for="details">Lista de Compras / Productos:*</label>
+                    <textarea id="details" rows="3" placeholder="Ej: 1L Leche, 1kg Pan, Detergente..." required></textarea>
+                    <label for="market">Supermercado de Preferencia (Opcional):</label>
+                    <input type="text" id="market" placeholder="Ej: Anónima, Dia, Chino centro...">
+                </div>
+
+                <label for="address">Dirección de Entrega / Retiro:*</label>
+                <input type="text" id="address" placeholder="Ej: Av. Moreno 2450, Saladillo" required>
+
+                <!-- FECHA Y FRANJA HORARIA -->
+                <div class="time-schedule">
+                    <div>
+                        <label for="deliveryDate">Fecha:*</label>
+                        <input type="date" id="deliveryDate" required>
+                    </div>
+                    <div>
+                        <label for="deliveryTime">Franja Horaria:*</label>
+                        <select id="deliveryTime" required>
+                            <option value="">Selecciona horario</option>
+                            <option value="Lo antes posible (⚡ Express)">Lo antes posible (⚡ Express)</option>
+                            <option value="Mañana (08:30 a 11:00 hs)">Mañana (08:30 a 11:00 hs)</option>
+                            <option value="Mediodía (11:00 a 13:30 hs)">Mediodía (11:00 a 13:30 hs)</option>
+                            <option value="Tarde (16:00 a 18:30 hs)">Tarde (16:00 a 18:30 hs)</option>
+                            <option value="Noche (18:30 a 21:00 hs)">Noche (18:30 a 21:00 hs)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="phone">Teléfono de Contacto (WhatsApp):*</label>
+                <input type="tel" id="phone" placeholder="Ej: 2344123456" required>
+
+                <label for="notes">Notas adicionales (Opcional):</label>
+                <input type="text" id="notes" placeholder="Ej: Timbre Roto / Pagaré con $5000">
+
+                <!-- BOTONES DE ENVÍO -->
+                <div class="button-group">
+                    <button type="submit" onclick="setSendMethod('whatsapp')" class="submit-btn whatsapp-btn">📲 Enviar por WhatsApp</button>
+                    <button type="submit" onclick="setSendMethod('email')" class="submit-btn email-btn">✉️ Enviar por Email (Prueba)</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- HISTORIAL CLIENTE -->
+        <section class="card">
+            <h2>Mis Pedidos Activos</h2>
+            <div id="orderList">
+                <p class="empty-msg">No tienes pedidos activos en esta sesión.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL CONFIRMACIÓN -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h3 id="modalTitle">¡Pedido Registrado!</h3>
+            <p id="modalDesc">Procesando tu solicitud...</p>
+            <button onclick="closeModal()" class="submit-btn">Aceptar</button>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 15px; font-size: 0.8rem; color: #888;">
+        © AL TOQUE Saladillo — <a href="admin.html" style="color: #888; text-decoration: underline;">Acceso Administración</a>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
